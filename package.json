@@ -1,6 +1,9 @@
 {
   "name": "demoblaze",
   "type": "module",
+  "engines": {
+    "node": ">=22.15"
+  },
   "devDependencies": {
     "@types/node": "^26.6.6",
     "@wdio/cli": "^10.1.0",

@@ -89,7 +89,9 @@ export const config: WebdriverIO.Config = {
     baseUrl: 'https://www.demoblaze.com',
     //
     // Default timeout for all waitFor* commands.
-    waitforTimeout: 10000,
+    // Demoblaze's demo API can intermittently take well over 10s to respond,
+    // so give waits generous headroom to avoid latency flakes.
+    waitforTimeout: 20000,
     //
     // Default timeout in milliseconds for request
     // if browser driver or grid doesn't send response
