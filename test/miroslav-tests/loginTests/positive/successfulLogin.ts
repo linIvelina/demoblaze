@@ -1,5 +1,5 @@
 import { expect } from '@wdio/globals'
-import Page from '../../pageobjects/page'
+import Page from '../../../pageobjects/page'
 import { createNewUser } from '../../helpers/newUser';
 import { API_URLS } from '../../helpers/apiUrls';
 

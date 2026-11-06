@@ -1,6 +1,6 @@
 import { $ } from '@wdio/globals'
 import { ChainablePromiseElement } from 'webdriverio'
-import Page from './page';
+import Page from '../../pageobjects/page';
 
 class SignUpPage extends Page {
 
