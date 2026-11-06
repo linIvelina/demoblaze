@@ -24,7 +24,7 @@
         "noFallthroughCasesInSwitch": true
     },
     "include": [
-        "test/specs",
+        "test",
         "wdio.conf.ts"
     ]
 }
