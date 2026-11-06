@@ -14,7 +14,7 @@ describe('Sign up page', () => {
 
     beforeEach(async () => {
         await browser.url('/');
-    })
+    });
 
     it('should register a new user with valid credentials', async () => {
         

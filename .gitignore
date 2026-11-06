@@ -4,3 +4,4 @@ logs/
 *.log
 .DS_Store
 .wdio/session/
+.wdio/chrome-os-password.json

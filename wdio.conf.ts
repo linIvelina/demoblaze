@@ -1,3 +1,10 @@
+import fs from 'node:fs'
+import os from 'node:os'
+import path from 'node:path'
+
+// Cached result of Chrome's "is the Windows password blank" check (see beforeSession)
+const OS_PASSWORD_CACHE = path.join(process.cwd(), '.wdio', 'chrome-os-password.json')
+
 export const config: WebdriverIO.Config = {
     //
     // ====================
@@ -46,7 +53,7 @@ export const config: WebdriverIO.Config = {
     // and 30 processes will get spawned. The property handles how many capabilities
     // from the same test should run tests.
     //
-    maxInstances: 15,
+    maxInstances: 3,
     //
     // If you have trouble getting all important capabilities together, check out the
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
@@ -183,8 +190,26 @@ export const config: WebdriverIO.Config = {
      * @param {Array.<String>} specs List of spec file paths that are to be run
      * @param {string} cid worker id (e.g. 0-0)
      */
-    // beforeSession: function (config, capabilities, specs, cid) {
-    // },
+    beforeSession: function (config, capabilities, specs, cid) {
+        // Chrome checks on startup whether the Windows password is blank by trying a
+        // Windows logon with an empty password. Every fresh test profile repeats that check,
+        // each failed logon counts towards the JumpCloud lockout (5 attempts).
+        // Chrome caches the result in "Local State", so each session gets a fresh profile
+        // pre-seeded with the cached result from the previous run.
+        const userDataDir = fs.mkdtempSync(path.join(os.tmpdir(), `wdio-chrome-${cid}-`));
+        if (fs.existsSync(OS_PASSWORD_CACHE)) {
+            const passwordManager = JSON.parse(fs.readFileSync(OS_PASSWORD_CACHE, 'utf-8'));
+            fs.writeFileSync(path.join(userDataDir, 'Local State'),
+                JSON.stringify({ password_manager: passwordManager }));
+        }
+        const caps = capabilities as WebdriverIO.Capabilities;
+        caps['goog:chromeOptions'] = caps['goog:chromeOptions'] || {};
+        caps['goog:chromeOptions'].args = [
+            ...(caps['goog:chromeOptions'].args || []),
+            `--user-data-dir=${userDataDir}`
+        ];
+        process.env.WDIO_CHROME_USER_DATA_DIR = userDataDir;
+    },
     /**
      * Gets executed before test execution begins. At this point you can access to all global
      * variables like `browser`. It is the perfect place to define custom commands.
@@ -268,8 +293,23 @@ export const config: WebdriverIO.Config = {
      * @param {Array.<Object>} capabilities list of capabilities details
      * @param {Array.<String>} specs List of spec file paths that ran
      */
-    // afterSession: function (config, capabilities, specs) {
-    // },
+    afterSession: function () {
+        // Save Chrome's cached Windows password check for the next session, then clean up
+        const userDataDir = process.env.WDIO_CHROME_USER_DATA_DIR;
+        if (!userDataDir) {
+            return;
+        }
+        try {
+            const localState = JSON.parse(fs.readFileSync(path.join(userDataDir, 'Local State'), 'utf-8'));
+            if (localState.password_manager) {
+                fs.mkdirSync(path.dirname(OS_PASSWORD_CACHE), { recursive: true });
+                fs.writeFileSync(OS_PASSWORD_CACHE, JSON.stringify(localState.password_manager));
+            }
+        } catch {
+            // Local State missing or unreadable: keep the previous cache
+        }
+        fs.rmSync(userDataDir, { recursive: true, force: true, maxRetries: 5, retryDelay: 500 });
+    },
     /**
      * Gets executed after all workers got shut down and the process is about to exit. An error
      * thrown in the onComplete hook will result in the test run failing.
