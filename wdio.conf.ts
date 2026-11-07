@@ -30,7 +30,7 @@ export const config: WebdriverIO.Config = {
     // of the config file unless it's absolute.
     //
     specs: [
-        './test/specs/**/*.ts',
+        './test/miroslav-tests/loginTests/**/*.ts',
         './test/miroslav-tests/signUpTests/**/*.ts'
     ],
     // Patterns to exclude.
@@ -53,14 +53,24 @@ export const config: WebdriverIO.Config = {
     // and 30 processes will get spawned. The property handles how many capabilities
     // from the same test should run tests.
     //
-    maxInstances: 5,
+    maxInstances: 3,
     //
     // If you have trouble getting all important capabilities together, check out the
     // Sauce Labs platform configurator - a great tool to configure your capabilities:
     // https://saucelabs.com/platform/platform-configurator
     //
     capabilities: [{
-        browserName: 'chrome'
+        browserName: 'chrome',
+        'goog:chromeOptions': {
+            // Each session uses a fresh temporary profile (see beforeSession), so Chrome's own
+            // settings don't apply. Turn off the password manager popups here instead:
+            // "save password?" and the "password found in a data breach" warning.
+            prefs: {
+                credentials_enable_service: false,
+                'profile.password_manager_enabled': false,
+                'profile.password_manager_leak_detection': false
+            }
+        }
     }],
 
     //

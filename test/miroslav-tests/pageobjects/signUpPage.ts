@@ -8,7 +8,7 @@ class SignUpPage extends Page {
         return $('#signin2');
     }
 
-    get usernameInput(): ChainablePromiseElement {
+    get userNameInput(): ChainablePromiseElement {
         return $('#sign-username');
     }
 
@@ -20,8 +20,12 @@ class SignUpPage extends Page {
         return $('button[onclick="register()"]');
     }
 
+    public async waitForSignUpFormOpen() {
+        await this.waitForModalOpen('#signInModal');
+    }
+
     public async setUserName(userName: string) {
-        await this.usernameInput.setValue(userName);
+        await this.userNameInput.setValue(userName);
     }
 
     public async setPassword(password: string) {

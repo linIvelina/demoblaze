@@ -14,6 +14,24 @@ export default class Page {
     }
 
     /**
+    * Waits until a Bootstrap modal has fully opened.
+    * Bootstrap moves the focus to the modal at the END of its opening animation, which steals
+    * the focus from an input the test is already typing into (the rest of the text gets lost).
+    * waitForDisplayed() isn't enough: it returns as soon as the animation starts.
+    * @param modalSelector CSS selector of the modal, e.g. '#logInModal'
+    * @param timeout how long to wait, in ms
+    */
+    public async waitForModalOpen(modalSelector: string, timeout = 10000) {
+        await browser.waitUntil(
+            () => browser.execute(
+                (selector: string) => document.activeElement === document.querySelector(selector),
+                modalSelector
+            ),
+            { timeout, timeoutMsg: `Modal ${modalSelector} didn't finish opening within ${timeout}ms` }
+        );
+    }
+
+    /**
     * Starts listening for the next browser alert, accepts it and resolves with its text.
     * Call it BEFORE the action that triggers the alert and await the result after it:
     *   const alertText = page.waitForAlertText();

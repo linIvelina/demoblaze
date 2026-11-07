@@ -1,16 +1,10 @@
 import { expect } from '@wdio/globals'
-import Page from '../../../pageobjects/page'
 import signUpPage from '../../pageobjects/signUpPage';
 import { createNewUser } from '../../helpers/newUser';
 
 describe('Sign up page', () => {
 
-    let page: Page;
     const newUser = createNewUser();
-
-    before(async () => {
-        page = new Page();
-    });
 
     beforeEach(async () => {
         await browser.url('/');
@@ -19,9 +13,9 @@ describe('Sign up page', () => {
     it('should register a new user with valid credentials', async () => {
         
             await signUpPage.signUpButton.click();
-            await signUpPage.usernameInput.waitForDisplayed();
+            await signUpPage.waitForSignUpFormOpen();
             await signUpPage.setUserName(newUser.username);
-            await expect(signUpPage.usernameInput).toHaveValue(newUser.username);
+            await expect(signUpPage.userNameInput).toHaveValue(newUser.username);
 
             await signUpPage.passwordInput.waitForDisplayed();
             await signUpPage.setPassword(newUser.password);
