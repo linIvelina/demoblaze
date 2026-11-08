@@ -1,7 +1,7 @@
 import { expect } from '@wdio/globals'
 import signUpPage from '../../pageobjects/signUpPage';
 import { createNewUser } from '../../helpers/newUser';
-import { API_URLS } from '../../helpers/apiUrls';
+import { registerUserViaApi } from '../../helpers/apiRequests';
 
 describe('Unsuccessful sign up', () => {
 
@@ -49,35 +49,11 @@ describe('Unsuccessful sign up', () => {
      * Instead of relying on another test (spec files run in parallel, so their order
      * isn't guaranteed), the test registers its own user directly through the
      * Demoblaze sign-up API, then tries to register the same username through the UI.
-     *
-     * The password is sent as plain text. That's enough here, because the duplicate
-     * check only looks at the username. Note that the UI base64-encodes the password,
-     * so this user can't log in through the UI with this password.
      */
     it('Should not register a user that already exists', async () => {
-        // create the credentials only once and reuse them for both the API and the UI,
-        // every call of createNewUser() returns a different user
-        const existingUser = createNewUser();
-
-        // precondition: register the user through the API
-        const response = await fetch(API_URLS.signUp, {
-
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                username: existingUser.username,
-                password: existingUser.password
-            })
-
-        });
-        //throws an error if the response is different from 200 /OK/
-        // Demoblaze returns 200 for both success and failure: the error is only in the body
-        const body = await response.text();
-        if (!response.ok || body.includes('errorMessage')) {
-
-            throw new Error(`API sign-up failed: HTTP ${response.status}, body: ${body}`);
-
-        };
+        // precondition: create a new user and register it through the API,
+        // then reuse the same credentials in the UI
+        const existingUser = await registerUserViaApi();
 
         await signUpPage.signUpButton.click();
         await signUpPage.waitForSignUpFormOpen();

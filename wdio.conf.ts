@@ -30,8 +30,8 @@ export const config: WebdriverIO.Config = {
     // of the config file unless it's absolute.
     //
     specs: [
-        './test/miroslav-tests/loginTests/**/*.ts',
-        './test/miroslav-tests/signUpTests/**/*.ts'
+        // every numbered test folder: 01-signUpTests, 02-loginTests, 03-...
+        './test/miroslav-tests/[0-9]*/**/*.ts'
     ],
     // Patterns to exclude.
     exclude: [

@@ -2,7 +2,7 @@ import { expect } from '@wdio/globals'
 import signUpPage from '../../pageobjects/signUpPage';
 import { createNewUser } from '../../helpers/newUser';
 import loginPage from '../../pageobjects/loginPage';
-import { API_URLS } from '../../helpers/apiUrls';
+import { registerUserViaApi } from '../../helpers/apiRequests';
 
 
 describe('Unsuccessful login', () => {
@@ -10,21 +10,7 @@ describe('Unsuccessful login', () => {
     const newUser = createNewUser();
 
     before(async () => {
-
-        const response = await fetch(API_URLS.signUp, {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({
-                username: newUser.username,
-                password: newUser.password
-            })
-        });
-        //throws an error if the response is different from 200 /OK/
-        // Demoblaze returns 200 for both success and failure: the error is only in the body
-        const body = await response.text();
-        if (!response.ok || body.includes('errorMessage')) {
-            throw new Error(`API sign-up failed: HTTP ${response.status}, body: ${body}`);
-        }
+        await registerUserViaApi(newUser);
     });
 
     beforeEach(async () => {

@@ -24,6 +24,14 @@ class LoginPage extends Page {
         return $('#logInModal .btn-secondary');
     }
 
+    get logoutButton(): ChainablePromiseElement {
+        return $('#logout2');
+    }
+
+    get welcomeUserText(): ChainablePromiseElement {
+        return $('#nameofuser');
+    }
+
     public async waitForLoginFormOpen() {
         await this.waitForModalOpen('#logInModal');
     }
