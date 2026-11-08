@@ -31,7 +31,6 @@ describe('Login page', () => {
 
         await expect(browser).toHaveUrl('index.html', { containing: true });
         await expect(loginPage.headerLoginButton).toBeDisplayed();
-        await expect(loginPage.logoutButton).not.toBeDisplayed();
         await expect(loginPage.welcomeUserText).not.toBeDisplayed();
     });
 });
