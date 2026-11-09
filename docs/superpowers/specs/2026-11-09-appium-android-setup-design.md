@@ -16,7 +16,7 @@
 - `appium` — server, local to the project
 - `@wdio/appium-service` — WDIO service that manages the server
 
-The `uiautomator2` driver is installed with `npx appium driver install uiautomator2`; it lives in `~/.appium`, not in `package.json`.
+The `uiautomator2` driver is installed with `npx appium driver install uiautomator2`; with a project-local appium, APPIUM_HOME autodetects to the project root, so the driver lands in the project's `node_modules` (not the shared `~/.appium`).
 
 ## File layout
 

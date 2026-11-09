@@ -25,6 +25,8 @@
     },
     "include": [
         "test/specs",
-        "wdio.conf.ts"
+        "test/pageobjects",
+        "wdio.conf.ts",
+        "wdio.android.conf.ts"
     ]
 }
