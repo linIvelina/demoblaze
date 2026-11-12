@@ -11,19 +11,19 @@ describe('Sign up page', () => {
     });
 
     it('should register a new user with valid credentials', async () => {
-        
-            await signUpPage.signUpButton.click();
-            await signUpPage.waitForSignUpFormOpen();
-            await signUpPage.setUserName(newUser.username);
-            await expect(signUpPage.userNameInput).toHaveValue(newUser.username);
 
-            await signUpPage.passwordInput.waitForDisplayed();
-            await signUpPage.setPassword(newUser.password);
-            await expect(signUpPage.passwordInput).toHaveValue(newUser.password);
+        await signUpPage.signUpButton.click();
+        await signUpPage.waitForSignUpFormOpen();
+        await signUpPage.setUserName(newUser.username);
+        await expect(signUpPage.userNameInput).toHaveValue(newUser.username);
 
-            const alertText = signUpPage.waitForAlertText();
-            await signUpPage.submitButton.click();
-            expect(await alertText).toBe('Sign up successful.');
-           
+        await signUpPage.passwordInput.waitForDisplayed();
+        await signUpPage.setPassword(newUser.password);
+        await expect(signUpPage.passwordInput).toHaveValue(newUser.password);
+
+        const alertText = signUpPage.waitForAlertText();
+        await signUpPage.submitButton.click();
+        expect(await alertText).toBe('Sign up successful.');
+
     });
 });

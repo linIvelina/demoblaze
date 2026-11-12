@@ -9,7 +9,7 @@ describe('Home page header', () => {
         await browser.url('/');
     });
 
-    it.only('Has to redirect to the home page', async () => {
+    it.only('Header home button has to redirect to the home page', async () => {
 
         const newUser = await registerUserViaApi();
 

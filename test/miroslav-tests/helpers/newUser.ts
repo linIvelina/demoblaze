@@ -4,6 +4,8 @@
 export interface NewUser {
     username: string;
     password: string;
+    userMail: string,
+    userContactName: string
 }
 
 /**
@@ -22,6 +24,8 @@ export function createNewUser(): NewUser {
 
     return {
         username: `TestUserName${unique}`,
-        password
+        password,
+        userMail: `testusermale${unique}@gmail.com`,
+        userContactName: `testusercontactname${unique}`
     }
 }
