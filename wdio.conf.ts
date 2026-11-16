@@ -1,5 +1,6 @@
-export const config: WebdriverIO.Config = {
-    //
+import 'dotenv/config'
+
+export const config: WebdriverIO.Config = {    //
     // ====================
     // Runner Configuration
     // ====================
