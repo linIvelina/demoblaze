@@ -12,5 +12,8 @@
   },
   "scripts": {
     "wdio": "wdio run ./wdio.conf.ts"
+  },
+  "dependencies": {
+    "dotenv": "^18.0.10"
   }
 }
