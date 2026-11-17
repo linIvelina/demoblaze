@@ -36,6 +36,14 @@ class HomePageHeader extends Page {
         return $(`#message-text`);
     }
 
+    get sendMessageButton(): ChainablePromiseElement {
+        return $('button[onclick="send()"]');
+    }
+
+    public async waitForContactFormOpen() {
+        await this.waitForModalOpen('#exampleModal');
+    }
+
     public async setContactFormEmail(email: string) {
         await this.contactEmailField.setValue(email);
     }
