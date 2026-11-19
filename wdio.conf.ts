@@ -1,3 +1,4 @@
+import 'dotenv/config'
 export const config: WebdriverIO.Config = {
     //
     // ====================
@@ -52,7 +53,8 @@ export const config: WebdriverIO.Config = {
     // https://saucelabs.com/platform/platform-configurator
     //
     capabilities: [{
-        browserName: 'chrome'
+        browserName: 'chrome',
+        'unhandledPromptBehavior': 'ignore'
     }],
 
     //
