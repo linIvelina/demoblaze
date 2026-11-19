@@ -25,6 +25,9 @@
     },
     "include": [
         "test",
-        "wdio.conf.ts"
+        "wdio.conf.ts",
+        "wdio.chrome.conf.ts",
+        "wdio.firefox.conf.ts",
+        "wdio.safari.conf.ts"
     ]
 }

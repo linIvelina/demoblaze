@@ -11,6 +11,9 @@
     "expect-webdriverio": "^8.0.0"
   },
   "scripts": {
-    "wdio": "wdio run ./wdio.conf.ts"
+    "wdio": "wdio run ./wdio.conf.ts",
+    "wdio:chrome": "wdio run ./wdio.chrome.conf.ts",
+    "wdio:firefox": "wdio run ./wdio.firefox.conf.ts",
+    "wdio:safari": "wdio run ./wdio.safari.conf.ts"
   }
 }
