@@ -53,12 +53,19 @@ class LoginPage extends Page {
         await browser.pause(200)
     }
 
-    public async getAlertText() {
-        return browser.getAlertText()
+    public async stubAlert() {
+        await browser.execute(() => {
+            sessionStorage.removeItem('__capturedAlert')
+            window.alert = (msg?: any) => { sessionStorage.setItem('__capturedAlert', String(msg)) }
+        })
     }
 
-    public async acceptAlert() {
-        return browser.acceptAlert()
+    public async getCapturedAlertText(timeout = 5000) {
+        await browser.waitUntil(
+            async () => (await browser.execute(() => sessionStorage.getItem('__capturedAlert'))) !== null,
+            { timeout, timeoutMsg: 'Alert was not triggered in time' }
+        )
+        return browser.execute(() => sessionStorage.getItem('__capturedAlert'))
     }
 }
 

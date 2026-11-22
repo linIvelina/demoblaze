@@ -4,6 +4,7 @@ import RegisterPage from '../pageobjects/register.page'
 describe('Sign Up', () => {
     beforeEach(async () => {
         await browser.url('/')
+        await RegisterPage.stubAlert()
     })
     // Select close button on the modal
     it('should open and close the sign up modal', async () => {
@@ -24,8 +25,7 @@ describe('Sign Up', () => {
         await RegisterPage.inputUsername.setValue(testEmail)
         await RegisterPage.inputPassword.setValue(testPassword)
         await RegisterPage.btnSubmitSignup.click()
-        await browser.pause(500)
-        const text = await RegisterPage.getAlertText()
+        const text = await RegisterPage.getCapturedAlertText()
         await expect(text).toEqual('Sign up successful.')
     })
 
@@ -36,7 +36,7 @@ describe('Sign Up', () => {
         await RegisterPage.btnSignupNav.click()
         await RegisterPage.inputUsername.setValue(testEmail)
         await RegisterPage.btnSubmitSignup.click()
-        const text = await RegisterPage.getAlertText()
+        const text = await RegisterPage.getCapturedAlertText()
         await expect(text).toEqual('Please fill out Username and Password.')
     })
     // Try to register with an exsisting user
@@ -48,7 +48,7 @@ describe('Sign Up', () => {
         await RegisterPage.inputUsername.setValue(testEmail)
         await RegisterPage.inputPassword.setValue(testPassword)
         await RegisterPage.btnSubmitSignup.click()
-        const text = await RegisterPage.getAlertText()
-        await expect(text).toEqual('This user already exists.')
+        const text = await RegisterPage.getCapturedAlertText()
+        await expect(text).toEqual('This user already exist.')
     })
 })

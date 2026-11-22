@@ -4,6 +4,7 @@ import LoginPage from '../pageobjects/login.page'
 describe('Login Page', () => {
     beforeEach(async () => {
         await browser.url('/')
+        await LoginPage.stubAlert()
     })
 
     it('should open and close the login modal', async () => {
@@ -28,9 +29,9 @@ describe('Login Page', () => {
 
     it('аn alert should appear asking you to enter your password and username', async () => {
         await LoginPage.btnLoginNav.click()
+        await LoginPage.waitForModalOpen()
         await LoginPage.btnSubmitLogin.click()
-        await browser.pause(1000)
-        const text = await LoginPage.getAlertText()
+        const text = await LoginPage.getCapturedAlertText()
         await expect(text).toEqual('Please fill out Username and Password.')
     })
 
