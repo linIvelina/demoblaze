@@ -1,3 +1,9 @@
+import { existsSync } from 'node:fs'
+
+// Loads test credentials (USER_NAME, USER_PASSWORD) from .env into process.env.
+// .env is git-ignored; if it's missing, the login tests fail with a clear message.
+if (existsSync('.env')) process.loadEnvFile()
+
 export const config: WebdriverIO.Config = {
     //
     // ====================
