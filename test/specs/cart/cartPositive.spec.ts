@@ -1,85 +1,56 @@
 
-// Import the AboutUsPage class
-import AboutUsPage from '../../pageobjects/aboutUs.page'
+import CartPage from '../../pageobjects/cart.page'
 import HomePage from '../../pageobjects/home.page'
 
-// Group all positive About Us tests
-describe('About Us - Positive', () => {
+// Group all positive Cart tests
+describe('Cart Page - Positive', () => {
 
-    // Create an instance of the AboutUsPage
-    const aboutUsPage = new AboutUsPage()
+    // Create an instance of the CartPage
+    const cartPage = new CartPage()
     const homePage = new HomePage()
 
     // Run before each test
     beforeEach(async () => {
 
         // Open the DemoBlaze website
-        await aboutUsPage.open('index.html')
+        await cartPage.open('index.html')
 
-        // Click on the About Us link
-        await homePage.aboutUsLink.click()
-
-    })
-
-    // Verify that the About Us modal is displayed
-    it('AU-01: About Us Modal Is Displayed', async () => {
-
-        // Check that the modal is displayed
-        await expect(aboutUsPage.aboutUsModal).toBeDisplayed()
+        // Click on the Cart link
+        await homePage.cartLink.click()
 
     })
 
-    // Verify that the modal title is displayed
-    it('AU-02: Modal Title Is Displayed', async () => {
+    // Verify that the Cart page opens successfully
+    it('CP-01: Cart Page Opens Successfully', async () => {
 
-        // Check that the modal title is displayed
-        await expect(aboutUsPage.modalTitle).toBeDisplayed()
-
-    })
-
-    // Verify that the video is displayed
-    it('AU-03: Video Is Displayed', async () => {
-
-        // Check that the video element is displayed
-        await expect(aboutUsPage.video).toBeDisplayed()
+        // Verify that the URL is correct
+        await expect(browser).toHaveUrl(
+            'https://www.demoblaze.com/cart.html'
+        )
 
     })
 
-    // Verify that the Close button is displayed
-    it('AU-04: Close Button Is Displayed', async () => {
+    // Verify that the Place Order button is displayed
+    it('CP-02: Place Order Button Is Displayed', async () => {
 
-        // Check that the Close button is displayed
-        await expect(aboutUsPage.closeButton).toBeDisplayed()
-
-    })
-
-    // Verify that the footer Close button is displayed
-    it('AU-05: Footer Close Button Is Displayed', async () => {
-
-        // Check that the footer Close button is displayed
-        await expect(aboutUsPage.closeModalButton).toBeDisplayed()
+        // Check that the Place Order button is displayed
+        await expect(cartPage.placeOrderButton).toBeDisplayed()
 
     })
 
-    // Verify that the modal can be closed using the Close button
-    it('AU-06: Modal Closes Using Close Button', async () => {
+    // Verify that the product table is displayed
+    it('CP-03: Product Table Is Displayed', async () => {
 
-        // Click on the Close button
-        await aboutUsPage.closeButton.click()
-
-        // Check that the modal is no longer displayed
-        await expect(aboutUsPage.aboutUsModal).not.toBeDisplayed()
+        // Check that the product table is displayed
+        await expect(cartPage.productTable).toBeDisplayed()
 
     })
 
-    // Verify that the modal can be closed using the footer Close button
-    it('AU-07: Modal Closes Using Footer Close Button', async () => {
+    // Verify that the total price is displayed
+    it('CP-04: Total Price Is Displayed', async () => {
 
-        // Click on the footer Close button
-        await aboutUsPage.closeModalButton.click()
-
-        // Check that the modal is no longer displayed
-        await expect(aboutUsPage.aboutUsModal).not.toBeDisplayed()
+        // Check that the total price is displayed
+        await expect(cartPage.totalPrice).toBeDisplayed()
 
     })
 
