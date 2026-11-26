@@ -7,6 +7,11 @@ import Page from './page'
 // Define the CartPage class
 export default class CartPage extends Page {
 
+    // Get the Cart navigation link
+    public get cartLink() {
+        return $('a=Cart')
+    }
+
     // Get the cart table
     public get cartTable() {
         return $('#tbodyid')
