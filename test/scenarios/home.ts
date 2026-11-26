@@ -20,7 +20,7 @@ export const mobile: Breakpoint = { name: 'mobile', width: 390, height: 844 }
  * window's borders and toolbars added on so the page area still ends up at the
  * right size. The "is shown at ...px wide" test checks the result either way.
  */
-async function setPageSize({ width, height }: Breakpoint) {
+export async function setPageSize({ width, height }: Breakpoint) {
     if (browser.isBidi) {
         await browser.setViewport({ width, height })
         return
